@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/garyburd/redigo/redis"
+	"github.com/enkhalifapro/userq/db"
 
 	"gopkg.in/mgo.v2/bson"
 
@@ -14,20 +14,6 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
-
-func newPool() *redis.Pool {
-	return &redis.Pool{
-		MaxIdle:   80,
-		MaxActive: 12000, // max number of connections
-		Dial: func() (redis.Conn, error) {
-			c, err := redis.Dial("tcp", viper.GetString("db.uri"))
-			if err != nil {
-				panic(err.Error())
-			}
-			return c, err
-		},
-	}
-}
 
 func toMsgObj(msgStr string) (map[string]interface{}, error) {
 	obj := make(map[string]interface{})
@@ -42,8 +28,8 @@ var runMsgQ = &cobra.Command{
 	Use:   "msgqsrv",
 	Short: "run pubsub message queue listner",
 	Run: func(cmd *cobra.Command, args []string) {
-		// create in-memory datastore
-		pool := newPool()
+		// create redis db connection
+		pool := db.NewPool()
 		c := pool.Get()
 		defer c.Close()
 
@@ -59,16 +45,16 @@ var runMsgQ = &cobra.Command{
 			// save with key schema ex. `msg:$ID:$FIELD`
 			// fullname
 			key := fmt.Sprintf("msg:%s:%s", messageID, "fullname")
-			c.Send("SET", key, fmt.Sprintf("%s %s", msgMap["firstname"], msgMap["lastname"]))
+			c.Send("SET", key, fmt.Sprintf("%s %s", msgMap["FirstName"], msgMap["LastName"]))
 			// address
 			key = fmt.Sprintf("msg:%s:%s", messageID, "address")
-			c.Send("SET", key, msgMap["address"])
+			c.Send("SET", key, msgMap["Address"])
 			// gender
 			key = fmt.Sprintf("msg:%s:%s", messageID, "gender")
-			c.Send("SET", key, msgMap["gender"])
+			c.Send("SET", key, msgMap["Gender"])
 			// timestamp
-			key = fmt.Sprintf("msg:%s:%s", messageID, "timestamp")
-			c.Send("SET", key, msgMap["timestamp"])
+			key = fmt.Sprintf("msg:%s:%v", messageID, "timestamp")
+			c.Send("SET", key, msgMap["Timestamp"])
 
 			// flush all
 			c.Flush()

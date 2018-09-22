@@ -5,6 +5,7 @@ import (
 
 	"github.com/spf13/viper"
 
+	"github.com/enkhalifapro/userq/db"
 	"github.com/enkhalifapro/userq/msgq"
 	"github.com/enkhalifapro/userq/server"
 	"github.com/facebookgo/inject"
@@ -32,6 +33,12 @@ var runHTTP = &cobra.Command{
 		server := &server.Server{}
 
 		msgqHelper := msgq.NewMsgQHelper(viper.GetString("msgqurl"))
+
+		// redis db connection
+		pool := db.NewPool()
+		c := pool.Get()
+		defer c.Close()
+
 		graph := &inject.Graph{}
 		err := graph.Provide(
 			// Provide engine
@@ -39,6 +46,8 @@ var runHTTP = &cobra.Command{
 			&inject.Object{Value: server},
 			// Provide helpers
 			&inject.Object{Value: msgqHelper},
+			// db
+			&inject.Object{Value: c},
 		)
 		if err != nil {
 			log.Fatal(err)
