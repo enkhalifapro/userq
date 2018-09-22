@@ -1,0 +1,10 @@
+---
+db:
+  uri: "mongodb://localhost:27017/automation"
+  tls:
+    enable: false
+log:
+  level: "DEBUG"
+  ginrus: false
+host: "localhost"
+port: "3000"
