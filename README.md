@@ -6,14 +6,14 @@
 3. run `$ ./userq httpsrv` to run http server.
 4. open a new terminal and run `$ ./userq msgqsrv` to run http server.
 
-No you are ready to open postman and post to http://localhost:3000
+Now you are ready to open postman and post to http://localhost:3000
 
 ```
 {
     "firstname": "ayman",
     "lastname": "hassan",
     "address": "enkhalifapro@mail.com",
-    "gender":"malex",
+    "gender":"male",
     "timestamp": 1537599615
 }
 ```

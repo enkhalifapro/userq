@@ -55,11 +55,22 @@ var runMsgQ = &cobra.Command{
 			if err != nil {
 				log.Fatalf(err.Error())
 			}
+
 			// save with key schema ex. `msg:$ID:$FIELD`
-			for k, v := range msgMap {
-				key := fmt.Sprintf("msg:%s:%s", messageID, k)
-				c.Send("SET", key, v)
-			}
+			// fullname
+			key := fmt.Sprintf("msg:%s:%s", messageID, "fullname")
+			c.Send("SET", key, fmt.Sprintf("%s %s", msgMap["firstname"], msgMap["lastname"]))
+			// address
+			key = fmt.Sprintf("msg:%s:%s", messageID, "address")
+			c.Send("SET", key, msgMap["address"])
+			// gender
+			key = fmt.Sprintf("msg:%s:%s", messageID, "gender")
+			c.Send("SET", key, msgMap["gender"])
+			// timestamp
+			key = fmt.Sprintf("msg:%s:%s", messageID, "timestamp")
+			c.Send("SET", key, msgMap["timestamp"])
+
+			// flush all
 			c.Flush()
 			c.Receive()          // reply from SET
 			_, err = c.Receive() // reply from GET
