@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/viper"
 
-	"github.com/enkhalifapro/userq/helpers"
+	"github.com/enkhalifapro/userq/msgq"
 	"github.com/enkhalifapro/userq/server"
 	"github.com/facebookgo/inject"
 	"github.com/gin-contrib/cors"
@@ -31,7 +31,7 @@ var runHTTP = &cobra.Command{
 
 		server := &server.Server{}
 
-		msgqHelper := helpers.NewMsgQHelper(viper.GetString("msgqurl"))
+		msgqHelper := msgq.NewMsgQHelper(viper.GetString("msgqurl"))
 		graph := &inject.Graph{}
 		err := graph.Provide(
 			// Provide engine

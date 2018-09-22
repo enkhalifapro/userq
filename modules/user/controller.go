@@ -3,14 +3,14 @@ package user
 import (
 	"net/http"
 
-	"github.com/enkhalifapro/userq/helpers"
+	"github.com/enkhalifapro/userq/msgq"
 
 	"github.com/gin-gonic/gin"
 )
 
 type Controller struct {
-	Service    *Service            `inject:""`
-	MsgqHelper *helpers.MsgQHelper `inject:""`
+	Service    *Service         `inject:""`
+	MsgqHelper *msgq.MsgQHelper `inject:""`
 }
 
 // Post pushes user to msgQ
