@@ -14,7 +14,7 @@ import (
 )
 
 var runHTTP = &cobra.Command{
-	Use:   "http",
+	Use:   "httpsrv",
 	Short: "run web server",
 	Run: func(cmd *cobra.Command, args []string) {
 		// Creates a gin router with default middleware:

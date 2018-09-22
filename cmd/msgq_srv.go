@@ -16,8 +16,8 @@ import (
 )
 
 var runMsgQ = &cobra.Command{
-	Use:   "msgq",
-	Short: "run pubsub message queue",
+	Use:   "msgqsrv",
+	Short: "run pubsub message queue listner",
 	Run: func(cmd *cobra.Command, args []string) {
 		// create in-memory datastore
 		memQDB, err := buntdb.Open(":memory:")
