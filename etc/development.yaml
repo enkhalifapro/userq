@@ -1,6 +1,6 @@
 ---
 db:
-  uri: "mongodb://localhost:27017/automation"
+  uri: "localhost:6379"
   tls:
     enable: false
 log:
