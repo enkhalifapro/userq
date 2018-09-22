@@ -6,5 +6,5 @@ type Model struct {
 	LastName  string
 	Address   string
 	Gender    string
-	timestamp int64
+	Timestamp int64
 }

@@ -30,7 +30,7 @@ type Server struct {
 // Run server
 func (s *Server) Run() error {
 	// deployment APIs
-	s.Engine.GET("/", s.Controller.User.Test)
+	s.Engine.POST("/", s.Controller.User.Post)
 
 	return s.Engine.Run(fmt.Sprintf("%v:%v", viper.GetString("host"), viper.GetString("port")))
 }

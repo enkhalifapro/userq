@@ -3,6 +3,9 @@ package cmd
 import (
 	"log"
 
+	"github.com/spf13/viper"
+
+	"github.com/enkhalifapro/userq/helpers"
 	"github.com/enkhalifapro/userq/server"
 	"github.com/facebookgo/inject"
 	"github.com/gin-contrib/cors"
@@ -28,11 +31,14 @@ var runHTTP = &cobra.Command{
 
 		server := &server.Server{}
 
+		msgqHelper := helpers.NewMsgQHelper(viper.GetString("msgqurl"))
 		graph := &inject.Graph{}
 		err := graph.Provide(
 			// Provide engine
 			&inject.Object{Value: engine},
 			&inject.Object{Value: server},
+			// Provide helpers
+			&inject.Object{Value: msgqHelper},
 		)
 		if err != nil {
 			log.Fatal(err)

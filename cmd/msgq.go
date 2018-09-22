@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/tidwall/buntdb"
+	"gopkg.in/mgo.v2/bson"
+
 	"github.com/go-mangos/mangos"
 	"github.com/go-mangos/mangos/protocol/pull"
 	"github.com/go-mangos/mangos/transport/all"
@@ -16,6 +19,11 @@ var runMsgQ = &cobra.Command{
 	Use:   "msgq",
 	Short: "run pubsub message queue",
 	Run: func(cmd *cobra.Command, args []string) {
+		// create in-memory datastore
+		memQDB, err := buntdb.Open(":memory:")
+		if err != nil {
+			log.Fatalf("Error: %v\n", err)
+		}
 		// msgQ listener
 		// 1. Create Pull Server
 		pullServerReady := make(chan struct{})
@@ -45,6 +53,16 @@ var runMsgQ = &cobra.Command{
 			}
 			fmt.Println("in rec vvvvv")
 			fmt.Println(serverMsg.Body)
+			messageID := bson.NewObjectId().Hex()
+			err := memQDB.Update(func(tx *buntdb.Tx) error {
+				_, _, err := tx.Set(messageID, string(serverMsg.Body), nil)
+				return err
+			})
+			if err != nil {
+				fmt.Printf("\nMessage receive failed: %v", err)
+				return
+			}
+
 		}
 	},
 }
