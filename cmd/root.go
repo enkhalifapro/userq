@@ -13,8 +13,8 @@ import (
 
 // RootCmd base is responsible for config loading and bootstrapping.
 var RootCmd = &cobra.Command{
-	Use:   "digitalpriv-backend",
-	Short: "API server",
+	Use:   "user-queue",
+	Short: "user queue",
 }
 
 // Execute adds all child commands to the root command sets flags appropriately.
