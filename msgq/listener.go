@@ -3,9 +3,9 @@ package msgq
 import (
 	"log"
 
-	"github.com/go-mangos/mangos"
-	"github.com/go-mangos/mangos/protocol/pull"
-	"github.com/go-mangos/mangos/transport/all"
+	"nanomsg.org/go-mangos"
+	"nanomsg.org/go-mangos/protocol/pull"
+	"nanomsg.org/go-mangos/transport/all"
 )
 
 // RecvMsgFunc a callback function for nanoMsg receive message event

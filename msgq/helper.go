@@ -3,8 +3,8 @@ package msgq
 import (
 	"encoding/json"
 
-	"github.com/go-mangos/mangos/protocol/push"
-	"github.com/go-mangos/mangos/transport/all"
+	"nanomsg.org/go-mangos/protocol/push"
+	"nanomsg.org/go-mangos/transport/all"
 )
 
 // MsgQHelper contains functions to interact with msgQ
